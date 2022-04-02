@@ -3,8 +3,11 @@
 // Select Elements
 const score0El = document.querySelector("#score--0");
 const score1El = document.querySelector("#score--1");
+const current0El = document.querySelector("#current--0");
+const current1El = document.querySelector("#current--1");
 const player0El = document.querySelector(".player--0");
 const player1El = document.querySelector(".player--1");
+const playerDiv = document.querySelectorAll(".player");
 const diceEl = document.querySelector(".dice");
 const btnNew = document.querySelector(".btn--new");
 const btnRoll = document.querySelector(".btn--roll");
@@ -15,9 +18,15 @@ let currentScore = 0;
 let activePlayer = 0;
 
 // Starting Conditions
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEl.classList.add("hidden");
+const resetGame = () => {
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  current0El.textContent = 0;
+  current1El.textContent = 0;
+  diceEl.classList.add("hidden");
+};
+
+resetGame();
 
 // Rolling Dice Functionality
 btnRoll.addEventListener("click", () => {
@@ -28,6 +37,11 @@ btnRoll.addEventListener("click", () => {
   diceEl.classList.remove("hidden");
   diceEl.src = `images/dice-${dice}.png`;
 
+  const toggle = () => {
+    player0El.classList.toggle("player--active");
+    player1El.classList.toggle("player--active");
+  };
+
   //   If 1, Jump To Next Player
   const playerScore = document.querySelector(`#current--${activePlayer}`);
   if (dice !== 1) {
@@ -37,5 +51,21 @@ btnRoll.addEventListener("click", () => {
   } else {
     currentScore = 0;
     playerScore.textContent = currentScore;
+    if (activePlayer === 1) {
+      toggle();
+      activePlayer -= 1;
+    } else {
+      toggle();
+      activePlayer += 1;
+    }
   }
+});
+
+btnNew.addEventListener("click", () => {
+  resetGame();
+});
+
+btnHold.addEventListener("click", () => {
+  console.log("Log Out");
+  // Add Functionality To Store Current Score
 });
