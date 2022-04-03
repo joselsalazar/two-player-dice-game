@@ -28,36 +28,41 @@ const resetGame = () => {
 
 resetGame();
 
+const toggle = () => {
+  player0El.classList.toggle("player--active");
+  player1El.classList.toggle("player--active");
+};
+
+const playerSwitch = () => {
+  currentScore = 0;
+  const playerScore = document.querySelector(`#current--${activePlayer}`);
+  playerScore.textContent = currentScore;
+  if (activePlayer === 1) {
+    activePlayer -= 1;
+    toggle();
+  } else {
+    activePlayer += 1;
+    toggle();
+  }
+};
+
 // Rolling Dice Functionality
 btnRoll.addEventListener("click", () => {
+  const playerScore = document.querySelector(`#current--${activePlayer}`);
   // Generate Dice Roll
   const dice = Math.trunc(Math.random() * 6) + 1;
+  console.log(activePlayer);
 
   //   Display Dice
   diceEl.classList.remove("hidden");
   diceEl.src = `images/dice-${dice}.png`;
-
-  const toggle = () => {
-    player0El.classList.toggle("player--active");
-    player1El.classList.toggle("player--active");
-  };
-
   //   If 1, Jump To Next Player
-  const playerScore = document.querySelector(`#current--${activePlayer}`);
   if (dice !== 1) {
     currentScore += dice;
     scores[activePlayer] += dice;
     playerScore.textContent = currentScore;
   } else {
-    currentScore = 0;
-    playerScore.textContent = currentScore;
-    if (activePlayer === 1) {
-      toggle();
-      activePlayer -= 1;
-    } else {
-      toggle();
-      activePlayer += 1;
-    }
+    playerSwitch();
   }
 });
 
@@ -66,6 +71,10 @@ btnNew.addEventListener("click", () => {
 });
 
 btnHold.addEventListener("click", () => {
-  console.log("Log Out");
-  // Add Functionality To Store Current Score
+  const currentRunningScore = document.querySelector(
+    `#current--${activePlayer}`
+  );
+  const currentHighScore = document.querySelector(`#score--${activePlayer}`);
+  currentHighScore.textContent = currentRunningScore.textContent;
+  playerSwitch();
 });
