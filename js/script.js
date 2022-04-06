@@ -71,10 +71,12 @@ btnNew.addEventListener("click", () => {
 });
 
 btnHold.addEventListener("click", () => {
-  const currentRunningScore = document.querySelector(
+  const currentScoreElement = document.querySelector(
     `#current--${activePlayer}`
   );
-  const currentHighScore = document.querySelector(`#score--${activePlayer}`);
-  currentHighScore.textContent = currentRunningScore.textContent;
+  const highScoreElement = document.querySelector(`#score--${activePlayer}`);
+  const currentScore = parseInt(currentScoreElement.textContent);
+  const highScore = parseInt(highScoreElement.textContent);
+  highScoreElement.textContent = currentScore + highScore;
   playerSwitch();
 });
