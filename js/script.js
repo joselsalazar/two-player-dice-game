@@ -46,6 +46,10 @@ const playerSwitch = () => {
   }
 };
 
+const winLogic = () => {
+  resetGame();
+};
+
 // Rolling Dice Functionality
 btnRoll.addEventListener("click", () => {
   const playerScore = document.querySelector(`#current--${activePlayer}`);
@@ -77,6 +81,11 @@ btnHold.addEventListener("click", () => {
   const highScoreElement = document.querySelector(`#score--${activePlayer}`);
   const currentScore = parseInt(currentScoreElement.textContent);
   const highScore = parseInt(highScoreElement.textContent);
-  highScoreElement.textContent = currentScore + highScore;
-  playerSwitch();
+  const totalScore = currentScore + highScore;
+  highScoreElement.textContent = totalScore;
+  if (totalScore >= 50) {
+    winLogic();
+  } else {
+    playerSwitch();
+  }
 });
